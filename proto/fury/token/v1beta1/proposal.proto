@@ -1,0 +1,13 @@
+syntax = "proto3";
+package fury.token.v1beta1;
+
+import "gogoproto/gogo.proto";
+import "fury/token/v1beta1/token.proto";
+
+option go_package = "github.com/furya-official/fury-blockchain/x/token/types";
+
+message SetTokenContractCodes {
+  uint64 cw20ContractCode = 1 [(gogoproto.jsontag) = "cw20_contract_code", (gogoproto.moretags) = "yaml:\"cw20_contract_code\""];
+  uint64 cw721ContractCode = 2 [(gogoproto.jsontag) = "cw721_contract_code", (gogoproto.moretags) = "yaml:\"cw721_contract_code\""];
+  uint64 fury1155ContractCode = 3 [(gogoproto.jsontag) = "fury1155_contract_code", (gogoproto.moretags) = "yaml:\"fury1155_contract_code\""];
+}

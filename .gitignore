@@ -1,0 +1,12 @@
+.idea/
+build/*
+*/utils/node_modules/
+*/utils/package-lock.json
+
+vendor
+node_modules
+lefthook-local.yaml
+coverage.out
+dist
+
+.DS_STORE

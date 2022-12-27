@@ -1,0 +1,14 @@
+syntax = "proto3";
+package fury.payments.v1;
+
+import "gogoproto/gogo.proto";
+import "fury/payments/v1/payments.proto";
+
+option go_package = "github.com/furya-official/fury-blockchain/x/payments/types";
+
+// GenesisState defines the payments module's genesis state.
+message GenesisState {
+  repeated fury.payments.v1.PaymentTemplate payment_templates = 1 [(gogoproto.nullable) = false, (gogoproto.moretags) = "yaml:\"payment_templates\""];
+  repeated fury.payments.v1.PaymentContract payment_contracts = 2 [(gogoproto.nullable) = false, (gogoproto.moretags) = "yaml:\"payment_contracts\""];
+  repeated fury.payments.v1.Subscription subscriptions        = 3 [(gogoproto.nullable) = false, (gogoproto.moretags) = "yaml:\"subscriptions\""];
+}

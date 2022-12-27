@@ -1,0 +1,97 @@
+package types
+
+import (
+	fmt "fmt"
+	"strconv"
+
+	paramstypes "github.com/cosmos/cosmos-sdk/x/params/types"
+)
+
+var (
+	KeyCw20ContractCode    = []byte("Cw20ContractCode")
+	KeyCw721ContractCode   = []byte("Cw721ContractCode")
+	KeyFury1155ContractCode = []byte("Fury1155ContractCode")
+)
+
+func parseCode(stringCode string) (uint64, error) {
+	code, err := strconv.ParseUint(stringCode, 0, 64)
+	if err != nil {
+		return 0, err
+	}
+
+	return code, nil
+}
+
+func validateContractCode(i interface{}) error {
+	codeString, ok := i.(string)
+	if !ok {
+		return fmt.Errorf("invalid parameter type: %T expected string", i)
+	}
+	code, err := parseCode(codeString)
+	if err != nil {
+		return err
+	}
+
+	if code < 0 {
+		return fmt.Errorf("invalid contract code")
+	}
+
+	return nil
+}
+
+// ParamTable for project module.
+func ParamKeyTable() paramstypes.KeyTable {
+	return paramstypes.NewKeyTable().RegisterParamSet(&Params{})
+}
+
+func NewParams(nftContractAddress string, nftContractMinter string) Params {
+	return Params{
+		Cw20ContractCode:    "0",
+		Cw721ContractCode:   "0",
+		Fury1155ContractCode: "0",
+	}
+}
+
+// func (p Params) MustCw20ContractCode() (uint64, error) {
+
+// }
+
+// // default project module parameters
+func DefaultParams() Params {
+	return Params{
+		Cw20ContractCode:    "0",
+		Cw721ContractCode:   "0",
+		Fury1155ContractCode: "0",
+	}
+}
+
+func (p *Params) GetCw20ContractCode() uint64 {
+	code, err := parseCode(p.Cw20ContractCode)
+	if err != nil {
+		panic(err)
+	}
+	return code
+}
+func (p *Params) GetCw721ContractCode() uint64 {
+	code, err := parseCode(p.Cw721ContractCode)
+	if err != nil {
+		panic(err)
+	}
+	return code
+}
+func (p *Params) GetFury1155ContractCode() uint64 {
+	code, err := parseCode(p.Fury1155ContractCode)
+	if err != nil {
+		panic(err)
+	}
+	return code
+}
+
+// // Implements params.ParamSet
+func (p *Params) ParamSetPairs() paramstypes.ParamSetPairs {
+	return paramstypes.ParamSetPairs{
+		{KeyCw20ContractCode, &p.Cw20ContractCode, validateContractCode},
+		{KeyCw721ContractCode, &p.Cw721ContractCode, validateContractCode},
+		{KeyFury1155ContractCode, &p.Fury1155ContractCode, validateContractCode},
+	}
+}
